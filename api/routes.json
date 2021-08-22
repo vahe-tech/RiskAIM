@@ -1,0 +1,4 @@
+{   
+    "GET:/risks": "Risks/GetRiskSummary",
+    "GET:/risks/{riskid}/{goto}": "Risks/EditRisk"
+}

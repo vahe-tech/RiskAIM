@@ -1,0 +1,12 @@
+RewriteBase /
+RewriteEngine On
+Options -Indexes
+DirectoryIndex index.php
+
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /api/api.php?requestPath=$1 [L,QSA]
+
+ErrorDocument 403  "<meta http-equiv='refresh' content='0; url=//riskaim:3000' />"
+ErrorDocument 404  "<meta http-equiv='refresh' content='0; url=//riskaim:3000' />"

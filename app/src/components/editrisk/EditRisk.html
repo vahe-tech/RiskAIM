@@ -1,0 +1,674 @@
+<div id="formcontainer" ng-app="Risk" ng-controller="EditRiskController as ctrl" ng-init="init()">
+    <div ng-if="ctrl.initDone && ctrl.userDone" id="myeditform" type="space" layout-padding="" ng-cloak="">   
+        <form id="form" name="EditRisk" role="form" ng-submit="ctrl.valid() && ctrl.submit()" novalidate>
+            <div class="layout" style="margin: 0 auto">
+                    <center>
+                        <h6>Edit Risk #{{ctrl.risk.riskid}}</h6>
+                        <input type="button" value="First" ng-click="ctrl.fetchRisk('first')"/>&nbsp;
+                        <input type="button" value="Prev"  ng-click="ctrl.fetchRisk('prev')"/>&nbsp;
+                        <input type="button" value="Next"  ng-click="ctrl.fetchRisk('next')">&nbsp;
+                        <input type="button" value="Last"  ng-click="ctrl.fetchRisk('last')">&nbsp;
+                    <!--object ng-show="ctrl.content" data="{{ctrl.content}}" type="application/vnd.openxmlformats-officedocument.presentationml.presentation" style="width: 100%; height: 400px;"></object-->
+                     <hr />   
+                    <div id="summary" class="tbl layout" border="1">
+                        <div class="tr">
+                            <div class="td label">Risk #</div>
+                            <div class="td locked">{{ctrl.risk.riskid}} [<a href="" ng-click="ctrl.getRiskReport()">Risk Summary</a>]</div>
+                            <div class="td label">
+                                Current Risk
+                            </div>
+                            <div class="td locked {{ctrl.event[ctrl.nextActualRiskEventId-1].actuallevel.cls || ctrl.risk.level.cls}}">
+                                {{ctrl.event[ctrl.nextActualRiskEventId-1].actuallevel.levelhtml.value || ctrl.risk.level.level}}
+                            </div>
+                        </div>   
+                         <div class="tr">
+                            <div class="td label">        
+                                Creator
+                            </div>
+                            <div class="td locked">
+                                Admin
+                            </div>
+                           
+                             <div class="td label">
+                                Risk State
+                            </div>
+                            <div class="td locked">
+                                {{ctrl.risk.riskstate}}
+                            </div>
+                           
+                        </div>            
+                        <div class="tr">
+                            <div class="td label">
+                                Owner
+                            </div>
+                            <div class="td locked">
+                                 <ui-select ng-model="ctrl.risk.owner" theme="select2" style="max-width: 100%" title="Choose a person">
+                                    <ui-select-match placeholder="Select/Search User">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="user.id as user in ctrl.users | propsFilter: {name: $select.search}">
+                                      <div ng-bind-html="user.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                             <div class="td label">
+                                Risk Approver
+                            </div>
+                            <div class="td locked">
+                                <ui-select ng-model="ctrl.risk.approver" theme="select2"  style="max-width: 100%" title="Choose a person">
+                                    <ui-select-match placeholder="Select/Search User">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="user.id as user in ctrl.users | propsFilter: {name: $select.search}">
+                                      <div ng-bind-html="user.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <br />  
+                   
+                    <hr />
+                    <div id="details" class="tbl layout" border="1">
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Title
+                            </div>
+                            <div class="td locked">
+                                <input type="text" value="{{ctrl.risk.risktitle}}" ng-model="ctrl.risk.risktitle"/>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Risk Statement
+                            </div>
+                            <div class="td locked" style="vertical-align: top">
+                                <textarea value="{{ctrl.risk.riskstatement}}" ng-model="ctrl.risk.riskstatement"></textarea>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Context
+                            </div>
+                            <div class="td locked" style="vertical-align: top">
+                                <textarea value="{{ctrl.risk.context}}" ng-model="ctrl.risk.context"></textarea>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Closure Criteria
+                            </div>
+                            <div class="td locked" style=" vertical-align: top">
+                                <textarea value="{{ctrl.risk.closurecriteria}}" ng-model="ctrl.risk.closurecriteria"></textarea>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Owner Notes
+                            </div>
+                            <div class="td locked" style=" vertical-align: top">
+                                <textarea value="{{ctrl.risk.ownernotes}}" ng-model="ctrl.risk.ownernotes"></textarea>
+                            </div>
+                        </div>
+                        <div class="tr">
+                            <div class="td label" style="vertical-align: top">
+                                Approver Comments
+                            </div>
+                            <div class="td locked" style=" vertical-align: top">
+                                <!--div ng-show="ctrl.config.approvercomments.done" config="approvercomments" webix-ui="approvercomments" width="500" height="97" type="textarea" id="approvercomments" name="approvercomments"></div-->
+                                 <textarea value="{{ctrl.risk.approvercomments}}" ng-model="ctrl.risk.approvercomments"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="center">
+                        <button id="submit" type="submit">Update Risk</button>
+                        <button id="complete" type="button" ng-click="ctrl.completeRisk()">Submit for Closure Approval</button>
+                        <button id="complete" type="button" ng-click="ctrl.closeRisk()">Approve For Closure</button>
+                   </div> 
+                   </center>      
+            </form>
+            <br />
+            <h2>Risk #{{ctrl.risk.riskid}}</h2>
+            <center>
+                <input type="button" value="First" ng-click="ctrl.fetchRisk('first')"/>&nbsp;
+                <input type="button" value="Prev"  ng-click="ctrl.fetchRisk('prev')"/>&nbsp;
+                <input type="button" value="Next"  ng-click="ctrl.fetchRisk('next')">&nbsp;
+                <input type="button" value="Last"  ng-click="ctrl.fetchRisk('last')">
+            </center>
+            <br />
+            <h2>Create Mitigation Events</h2>
+         <form id="formEvt" name="EditEvents" role="form" ng-submit="ctrl.saveEvents()" novalidate>  
+         <center>
+            <div cellpadding='0' cellspacing='0' class="tbl events tbl-condensed" border=1>
+                <div class="tbl">
+                    <div class="tr">                                                
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                #
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Event Title
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Event Owner
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Actual
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Risk
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Like
+                            </div>
+                            <div class="th placeholder">
+                            </div> 
+                            <div class="th header">
+                                Tech
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Schd
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Cost
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Baseline
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Risk
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Like
+                            </div>
+                            <div class="th placeholder">
+                            </div> 
+                            <div class="th header">
+                                Tech
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Schd
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Cost
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Schedule
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Risk
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Like
+                            </div>
+                            <div class="th placeholder">
+                            </div> 
+                            <div class="th header">
+                                Tech
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Schd
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Cost
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                Save
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                 Remove
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                 Edit
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                 Details
+                            </div>
+                            <div class="th placeholder">
+                            
+                            </div>
+                            <div class="th header">
+                                 Close
+                            </div>
+                    </div>
+                    <div class="tr event" ng-repeat="event in [0]" ng-if="ctrl.eventsdone">
+                        <div class="td header">
+                            <div class="widthAuto">ID</div>
+                        </div>
+                        <div class="td left value">
+                            <div class="left widthAuto" style="text-align:left">{{event}}</div>
+                        </div> 
+                        <div class="td header">
+                            <div class="left widthAuto">Event Title</div>
+                        </div>
+                        <div class="td left value" style="text-align:left">
+                            <div class="widthAuto">Risk Identified</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Owner</div>
+                        </div>
+                        <div class="td left value">
+                            <div class="widthAuto" style="text-align:left">{{ctrl.risk.ownername}}</div>
+                        </div>
+                        <div class="td left header">
+                            <div class="widthAuto">Actual</div>
+                        </div>
+                        <div class="td left value">
+                            <div class="widthAuto" style="text-align:left">{{ctrl.event[0].actualdate | date: "M/d/y"}}</div>
+                        </div>
+                          <div class="td header">
+                            <div class="width50">Risk Level</div>
+                        </div>
+                        <div class="td center level value {{ctrl.risk.level.cls}}" style="text-align:left">
+                            <div class="widthAuto"><nobr>{{ctrl.risk.level.level}}</nobr></div> 
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Likelihood</div>
+                        </div>
+                        <div class="td value center">
+                            <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actuallikelihood}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Technical</div>
+                        </div>
+                        <div class="td value center" style="text-align: left">
+                            <div class="widthAuto center">{{ctrl.event[0].actualtechnical}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Schedule</div>
+                        </div>      
+                        <div class="td value center" style="text-align: left">
+                           <div class="widthAuto center">{{ctrl.event[0].actualschedule}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Cost</div>
+                        </div>
+                        <div class="td value center">
+                           <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actualcost}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Baseline</div>
+                        </div>
+                        <div class="td left value">
+                            <div class="widthAuto" style="text-align:left">{{ctrl.risk.assessmentdate | date: "M/d/y"}}</div>
+                        </div>
+                          <div class="td header">
+                            <div class="width50">Risk Level</div>
+                        </div>
+                        <div class="td center level value {{ctrl.risk.level.cls}}" style="text-align:left">
+                            <div class="widthAuto center"><nobr>{{ctrl.risk.level.level}}</nobr></div> 
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Likelihood</div>
+                        </div>
+                        <div class="td value center">
+                            <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actuallikelihood}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Technical</div>
+                        </div>
+                        <div class="td value center" style="text-align: left">
+                            <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actualtechnical}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Schedule</div>
+                        </div>      
+                        <div class="td value center" style="text-align: left">
+                           <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actualschedule}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Cost</div>
+                        </div>
+                        <div class="td value center">
+                           <div class="widthAuto center" style="text-align:left">{{ctrl.event[0].actualcost}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Schedule</div>
+                        </div>
+                        <div class="td left value">
+                            <div class="widthAuto" style="text-align:left">{{ctrl.event[0].scheduleddate | date: "M/d/y"}}</div>
+                        </div>
+                        <div class="td header">
+                            <div class="width50">Risk Level</div>
+                        </div>
+                        <div class="td center level value">
+                            <div class="widthAuto center"><nobr></nobr></div> 
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Likelihood</div>
+                        </div>
+                        <div class="td value center">
+                            <div class="widthAuto center"></div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Technical</div>
+                        </div>
+                        <div class="td value center" style="text-align: center">
+                            <div class="widthAuto center"></div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Schedule</div>
+                        </div>      
+                        <div class="td value center" style="text-align: center">
+                           <div class="widthAuto center"></div>
+                        </div>
+                        <div class="td header">
+                            <div class="widthAuto">Cost</div>
+                        </div>
+                        <div class="td value center">
+                           <div class="widthAuto center"></div>
+                        </div>
+                         <div class="td header buttonlabel" style="min-width: 50px">
+                            Save       
+                        </div>
+                        <div class="td value buttonvalue" style="min-width: 50px" >
+                            <input class="addEvent" type="button" id="add{{event}}" ng-show="ctrl.levelsready && (!ctrl.disabled[event].value || (ctrl.event.length == 1 || ctrl.lastEventIdSaved == 0))"  ng-click="ctrl.add(event)" ng-keyup="$event.keyCode === 13 && ctrl.add(event)" value="Next" />
+                        </div>                                                                                                                                                                                                                                                                                                                           
+                        <div class="td header buttonlabel">                                                                                                                                          
+                            Remove
+                        </div>
+                        <div class="td value buttonvalue">                                                                                                                                                                                                                                                                                          
+                           <input class="removeEvent" type="button" id="remove{{event}}" ng-show="((event-1) == ctrl.lastEventIdSaved) && (event != 0) && (ctrl.disabled[event].value)"  ng-click="ctrl.remove(event)" ng-keyup="$event.keyCode === 13 && ctrl.remove(event)"  value="Remove" />
+                        </div>
+                        <div class="td header buttonlabel" style="min-width: 50px">
+                            Edit
+                        </div>
+                        <div class="td value buttonvalue-hide" style="min-width: 50px">
+    
+                        </div>                                                                                                                                                                                                                                                                                                                          
+                        <div class="td header buttonlabel" style="min-width: 50px">
+                            Details
+                        </div>
+                        <div class="td value buttonvalue-hide">
+                                            
+                        </div>                                                                                                                                                                                                                                                                                                                         
+                        <div class="td header buttonlabel">
+                            Close                                                                      
+                        </div>
+                        <div class="td value buttonvalue-hide">
+                                            
+                        </div>
+                    </div>
+                    <div class="tr event" ng-repeat="event in [1,2,3,4,5]" ng-if="ctrl.eventsdone">
+                        <div class="td header">
+                            ID
+                        </div>
+                        <div class="td value" style="text-align: left">
+                            {{event}}
+                        </div>                                                                                                                                                                                                                                                                                                                                                                                                                 
+                        <div class="td header">
+                            Event Title
+                        </div>
+                        <div class="td value">
+                            <input ng-change="ctrl.validateEvent(event)" ng-disabled="ctrl.disabled[event].value" type="text" class="title" ng-model="ctrl.event[event].eventtitle" />
+                        </div>
+                        <div class="td header">
+                            Owner
+                        </div>
+                        <div class="td value">
+                                 <ui-select ng-change="ctrl.validateEvent(event)" ng-model="ctrl.event[event].eventownerid" theme="select2" ng-disabled="ctrl.disabled[event].value" title="Choose a person">
+                                    <ui-select-match placeholder="Select/Search User">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="user.id as user in ctrl.users | propsFilter: {name: $select.search}">
+                                      <div ng-bind-html="user.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                        </div>
+                        <div class="td header">
+                            Actual
+                        </div>
+                        <div class="td value">   
+                           <!--input type='text' id="actual{{event}}"  class="datepicker-here" data-language='en' /--> 
+                                <p class="input-group">
+                                   <!--input ng-if="!(ctrl.lastEventIdSaved >= event - 1)"  class="date-input"  ng-disabled="ctrl.actual[event].disabled || (ctrl.nextActualRiskEventId != event) || ((ctrl.lastEventIdSaved+1) < event) ||(!ctrl.evtValid(event)) && (event >= ctrl.lastEventIdSaved-1)" /-->
+                                  <input ng-if="event==1" ng-change="ctrl.validateEvent(event)" ng-disabled="ctrl.actualDisabled(event)" ng-model="ctrl.event[event].actualdate" type="text" class="actual date-input" uib-datepicker-popup="MM/dd/yyyy" is-open="ctrl.actual[event].opened" datepicker-options="ctrl.actualDateOptions1" ng-required="true" close-text="Close" />
+                                  <input ng-if="event>1" ng-change="ctrl.validateEvent(event)" ng-disabled="ctrl.actualDisabled(event)" ng-model="ctrl.event[event].actualdate" type="text" class="actual date-input" uib-datepicker-popup="MM/dd/yyyy" is-open="ctrl.actual[event].opened" datepicker-options="ctrl.event[event].actualdateOptions" ng-required="true" close-text="Close" />
+                                  
+                                  <span class="input-group-btn">
+                                    <button type="button" class="btn btn-secondary" ng-disabled="ctrl.actualDisabled(event)" ng-click="ctrl.openActual(event)">
+                                      <i class="fa-svg-icon">                                                                                                                  
+                                        <svg style="left: -11px; top: -8px" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z"/></svg>
+                                      </i>
+                                    </button>
+                                  </span>
+                                </p> 
+                        </div>
+                        <div class="td header">
+                            Level
+                        </div>
+                        <div name="actuallevel" evt="{{event}}" class="td value riskvalue level{{event}} {{ctrl.riskValid(event, 'actual') ? ctrl.event[event].actuallevel.cls  : ''}}">
+                            <!--div ng-init="ctrl.displayLevel(event, 'actual')" ng-bind-html="ctrl.event[event].actuallevel.levelhtml.value"-->
+                               <div ng-bind-html="ctrl.displayLevel(event, 'actual', ctrl).html.value"></div>
+                        </div>
+                        <div class="td header">
+                            Likelihood
+                        </div>
+                        <div class="td value center nopadding  riskvalue">
+                            <input class="level" type="text" maxlength="1"  ng-disabled="ctrl.actualDisabled(event)" ng-change="ctrl.validateDisplayLevel(event, 'actual')" ng-model="ctrl.event[event].actuallikelihood" />
+                        </div>                                                                                              
+                        <div class="td header">
+                            Technical
+                        </div>                                                                                                                
+                        <div class="td value center nopadding  riskvalue">
+                           <input class="level" type="text" maxlength="1"  ng-disabled="ctrl.actualDisabled(event)" ng-change="ctrl.validateDisplayLevel(event, 'actual')" ng-model="ctrl.event[event].actualtechnical" />
+                        </div>
+                        <div class="td header">
+                            Schedule
+                        </div>
+                        <div class="td value center nopadding  riskvalue">
+                             <input class="level" type="text" maxlength="1" ng-disabled="ctrl.actualDisabled(event)" ng-model="ctrl.event[event].actualschedule" />
+                        </div>
+                        <div class="td header">
+                            Cost
+                        </div>
+                        <div class="td value center nopadding riskvalue">
+                             <input class="level" type="text" maxlength="1" ng-disabled="ctrl.actualDisabled(event)" ng-change="ctrl.validateDisplayLevel(event, 'actual')" ng-model="ctrl.event[event].actualcost" />
+                        </div>
+                        <div class="td header">
+                            Baseline
+                        </div>
+                        <div class="td value">
+                         <!--input type='text' id="schedule{event}}" class="datepicker-here" data-language='en' /-->         
+                            <p class="input-group">           
+                                <!--input ng-if="!(ctrl.lastEventIdSaved >= event - 1)" ng-disabled="ctrl.disabled[event].value"  class="date-input" /-->
+                                  <input ng-change="ctrl.validateEvent(event); ctrl.setScheduleDate(event)"  ng-disabled="ctrl.disabled[event].value" ng-model="ctrl.event[event].baselinedate" type="text" class="evt{{event}} baseline date-input" uib-datepicker-popup="M/dd/yyyy" is-open="ctrl.baseline[event].opened" datepicker-options="ctrl.event[event].baselinedateOptions" ng-required="true" close-text="Close" />
+                                  <span class="input-group-btn">
+                                    <button type="button" class="btn btn-secondary" ng-disabled="ctrl.disabled[event].value" ng-click="ctrl.openBaseline(event)">
+                                      <i class="fa-svg-icon">
+                                        <svg style="left: -11px; top: -8px" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z"/></svg>
+                                      </i>
+                                    </button>
+                                  </span>
+                                </p>
+                        </div>
+                        <div class="td header">
+                            Level
+                        </div>  
+                        <div name="baselinelevel" evt="{{event}}" class="td value riskvalue level{{event}} {{ctrl.riskValid(event, 'baseline') ? ctrl.event[event].baselinelevel.cls  : ''}}">
+                            <!--div ng-init="ctrl.displayLevel(event, baseline); " ng-bind-html="ctrl.event[event].baselinelevel.levelhtml.value"-->
+                            <div ng-bind-html="ctrl.displayLevel(event, 'baseline', ctrl).html.value"></div>
+                        </div>
+                        <div class="td header">
+                            Likelihood
+                        </div>
+                        <div class="td value center nopadding riskvalue">
+                            <input  required ng-class="{invalid: ctrl.event[event].baselineinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value"  ng-change="ctrl.validateDisplayLevel(event, 'baseline', 'likelihood'); (!ctrl.oldlikelihood) && (ctrl.event[event].scheduledlikelihood = ctrl.event[event].baselinelikelihood)" ng-init="ctrl.oldlikelihood=0" ng-blur="ctrl.oldlikelihood = ctrl.event[event].baselinelikelihood" ng-focus="ctrl.oldlikelihood = ctrl.event[event].baselinelikelihood" ng-model="ctrl.event[event].baselinelikelihood" />
+                        </div>                                                                                              
+                        <div class="td header">
+                            Technical
+                        </div>                                                                                                                
+                        <div class="td value center nopadding riskvalue"> 
+                           <input  required ng-class="{invalid: ctrl.event[event].baselineinvalid}" class="level" type="text" maxlength="1"  ng-disabled="ctrl.disabled[event].value"  ng-change="ctrl.validateDisplayLevel(event, 'baseline', 'technical'); (!ctrl.oldtechnical)  && (ctrl.event[event].scheduledtechnical = ctrl.event[event].baselinetechnical)"  ng-init="ctrl.oldtechnical=0" ng-focus="ctrl.oldtechnical = ctrl.event[event].baselinetechnical" ng-model="ctrl.event[event].baselinetechnical" />
+                        </div>
+                        <div class="td header">
+                            Schedule
+                        </div>
+                        <div class="td value center nopadding riskvalue">                                                                                                           
+                             <input  required ng-class="{invalid: ctrl.event[event].baselineinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value" ng-change="ctrl.validateDisplayLevel(event, 'baseline', 'schedule'); (!ctrl.oldschedule) && (ctrl.event[event].scheduledschedule = ctrl.event[event].baselineschedule)" ng-init="ctrl.oldschedule=0" ng-focus="ctrl.oldschedule = ctrl.event[event].baselineschedule" ng-model="ctrl.event[event].baselineschedule" />
+                        </div>
+                        <div class="td header">
+                            Cost
+                        </div>
+                        <div class="td value center nopadding riskvalue">
+                             <input  required ng-class="{invalid: ctrl.event[event].baselineinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value" ng-change="ctrl.validateDisplayLevel(event, 'baseline', 'cost'); (!ctrl.oldcost) && (ctrl.event[event].scheduledcost = ctrl.event[event].baselinecost)" ng-init="ctrl.oldcost=0" ng-focus="ctrl.oldcost = ctrl.event[event].baselinecost" ng-model="ctrl.event[event].baselinecost" />
+                        </div>
+                        <div class="td header">
+                            Schedule   
+                        </div>                                                               
+                        <div class="td value">
+                         <!--input type='text' id="schedule{event}}" class="datepicker-here" data-language='en' /-->         
+                            <p class="input-group">           
+                                <!--input ng-if="!(ctrl.lastEventIdSaved >= event - 1)" class="date-input" ng-disabled=" ctrl.disabled[event].value" /-->
+                                  <input ng-change="ctrl.validateEvent(event);"   ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)"  ng-model="ctrl.event[event].scheduledate" type="text" class="evt{{event}} schedule date-input" uib-datepicker-popup="M/dd/yyyy" is-open="ctrl.schedule[event].opened" datepicker-options="ctrl.event[event].scheduledateOptions" ng-required="true" close-text="Close" />
+                                  <span class="input-group-btn">
+                                    <button type="button" class="btn btn-secondary" ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)" ng-click="ctrl.openSchedule(event)">
+                                      <i class="fa-svg-icon">
+                                        <svg style="left: -11px; top: -8px" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z"/></svg>
+                                      </i>
+                                    </button>
+                                  </span>
+                                </p>
+                        </div>
+                        <div class="td header">
+                            Level
+                        </div>
+                        <div name="scheduledlevel" evt="{{event}}" class="td value riskvalue level{{event}} {{ctrl.riskValid(event, 'scheduled') ? ctrl.event[event].scheduledlevel.cls  : ''}}">
+                            <!--div ng-init="ctrl.displayLevel(event, 'schedule')" ng-bind-html="ctrl.event[event].scheduledlevel.levelhtml.value"-->
+                            <div ng-bind-html="ctrl.displayLevel(event, 'scheduled', ctrl).html.value"></div>
+                        </div>
+                        <div class="td header">                                                              
+                            Likelihood
+                        </div>                                                                                                                  
+                        <div class="td value center nopadding riskvalue" >
+                            <input required ng-class="{invalid: ctrl.event[event].scheduledinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)"  ng-change="ctrl.validateDisplayLevel(event, 'scheduled', 'likelihood'); ctrl.setBaselineLikelihood(event)" ng-model="ctrl.event[event].scheduledlikelihood" />
+                        </div>                                                                                              
+                        <div class="td header">
+                            Technical
+                        </div>                                                                                                                
+                        <div class="td value center nopadding riskvalue">
+                           <input required ng-class="{invalid: ctrl.event[event].scheduledinvalid}"class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)"  ng-change="ctrl.validateDisplayLevel(event, 'scheduled', 'technical'); ctrl.setBaselineTechnical(event)" ng-model="ctrl.event[event].scheduledtechnical" />
+                        </div>
+                        <div class="td header">
+                            Schedule
+                        </div>
+                        <div class="td value center nopadding riskvalue">
+                             <input required ng-class="{invalid: ctrl.event[event].scheduledinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)" ng-change="ctrl.validateDisplayLevel(event, 'scheduled', 'schedule'); ctrl.setBaselineSchedule(event)" ng-model="ctrl.event[event].scheduledschedule" />
+                        </div>                                                                           
+                        <div class="td header">                               
+                            Cost
+                        </div>
+                        <div class="td value center nopadding riskvalue">
+                             <input required ng-class="{invalid: ctrl.event[event].scheduledinvalid}" class="level" type="text" maxlength="1" ng-disabled="ctrl.disabled[event].value || (ctrl.actualValid(event).value && ctrl.actual[event].disabled)" ng-change="ctrl.validateDisplayLevel(event, 'scheduled', 'cost'); ctrl.setBaselineCost(event)" ng-model="ctrl.event[event].scheduledcost" />
+                        </div>
+                        <div class="td header buttonlabel" style="min-width: 50px">
+                            Save
+                        </div>   
+                        <div class="td value buttonvalue" style="min-width: 50px">
+                           <input class="addEvent" type="button" id="add{{event}}" ng-show="(ctrl.lastEventIdSaved == event) && ctrl.event[event].valid" ng-click="ctrl.add(event)" ng-keyup="$event.keyCode === 13 && ctrl.add(event)" value="Save" />
+                        </div>                                                                                                                                                                                                                                                                                                                           
+                        <div class="td header buttonlabel">
+                            Remove
+                        </div>
+                        <br class="showmobile"/>
+                        <br class="showmobile"/>
+                        <div class="td value buttonvalue" style="width: 71px">
+                           <input class="removeEvent" type="button" id="remove{{event}}" ng-show="(!ctrl.disabled[event].value && ctrl.lastEventIdSaved == event)" ng-click="ctrl.remove(event)" ng-keyup="$event.keyCode === 13 && ctrl.remove(event)"  value="Clear" />
+                        </div>
+                        <div class="td header buttonlabel" style="min-width: 50px">
+                            Edit
+                        </div>
+                        <div class="td value buttonvalue" style="width: 75px !important">                                                                                                                                                                    
+                            <input class="editEvent" type="button" id="edit{{event}}" ng-show="(event < ctrl.lastEventIdSaved) && !ctrl.event[event].edit"  ng-click="ctrl.edit(event);" ng-keyup="$event.keyCode === 13 && ctrl.edit(event)" value="Edit" />
+                            <input class="updateEvent" type="button" id="update{{event}}"  ng-show="ctrl.event[event].edit" ng-hide="!ctrl.event[event].edit" ng-click="ctrl.update(event)" ng-keyup="$event.keyCode === 13 && ctrl.add(event)" value="Done" />         
+                        </div> 
+                        <div class="td header buttonlabel">
+                            View                                                                      
+                        </div>    
+                        <div class="td value buttonvalue" style="width: 50px !important">                              
+                            <a ng-show="(ctrl.lastEventIdSaved >= event) && ctrl.evtValid(event)" href="#!/risk/{{ctrl.riskid}}/event/{{event}}">View</a> 
+                        </div>                                                                                                                                                                                                                                                                                                                           
+                        <div class="td header buttonlabel">
+                            Close                                                                       
+                        </div>
+                        <div class="td value buttonvalue" style="width: 100px !important">                              
+                            <input ng-show="ctrl.lastEventIdSaved == event" class="closeEvent" type="button" id="close{{event}}"  ng-click="ctrl.close(event)" ng-keyup="$event.keyCode === 13 && ctrl.close(event)"  value="Close" />
+                        </div>  
+                    </div> 
+                </div>
+            </div>                
+            <div class="center">  
+             <button id="submit" type="submit">Save Events</button>
+            </div>
+                </center>
+           </form>               
+         </div> 
+         <divider></divider>
+          <div class="msg" layout-align="center">
+            <span ng-bind-html="ctrl.msg">{{ctr.msg}}</span>
+          </div>
+    </div> 
+    <init-risk />  
+</div>
+
+
+    

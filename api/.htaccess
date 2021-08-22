@@ -1,0 +1,13 @@
+RewriteBase /api
+RewriteEngine On
+DirectoryIndex api.php
+
+RewriteCond %{REQUEST_URI} ^/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ api.php?requestPath=$1 [QSA]
+
+RewriteCond %{REQUEST_URI} ^/api.php
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ /api [L,R,QSD]
