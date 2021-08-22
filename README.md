@@ -1,7 +1,5 @@
-# ProjectAIM
+# RiskAIM
 RiskAIM - Project Risk Management Web Application
-
-![ProjectAIM Logo](https://vahejab.net/projectaim_logo.png)
 
 RiskAIM is designed to serve organizations and teams for tracking and managing Risks for a project.
 
