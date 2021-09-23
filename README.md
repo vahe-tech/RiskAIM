@@ -83,6 +83,7 @@ An element of a project that pops up during a project and requires attention and
 
 **Summary of the four elements of a project in a summarized graph form**
 
-![Project States And Response Actions](https://user-images.githubusercontent.com/12054603/134474034-7a8d4df4-2cf2-4624-89b9-25649a032639.png)
+![Project States And Response Actions](https://user-images.githubusercontent.com/12054603/134474514-ff75111c-a7e6-4eec-968b-a6445ad0f975.png)
+
 
 
