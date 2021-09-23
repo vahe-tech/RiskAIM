@@ -80,3 +80,9 @@ An element of a project that pops up during a project and requires attention and
 
 ![Opportunity](https://i.stack.imgur.com/JfPCg.png)
 
+
+**Summary of the four elements of a project in a summarized graph form**
+
+![Project States And Response Actions](https://user-images.githubusercontent.com/12054603/134473270-d3e4dc9f-b401-4371-8287-a383ce3aecd2.png)
+
+
