@@ -4,6 +4,9 @@ RiskAIM - Project Risk Management Web Application
 RiskAIM is designed to serve organizations and teams for tracking and managing Risks for a project.
 
 
+![139392567_xl](https://user-images.githubusercontent.com/12054603/135656087-012ac6ab-376f-49b1-956a-e92f2ccb512a.jpg)
+
+
 Currently under development, it is written in ReactJS (Front-End) / PHP/MySQL (Back-End) and is developed as a single page application that will be migrated to a mobile device.
 
 -----------------
