@@ -1,3 +1,4 @@
+
 # RiskAIM
 RiskAIM - Project Risk Management Web Application
 
@@ -5,6 +6,12 @@ RiskAIM is designed to serve organizations and teams for tracking and managing R
 
 
 ![139392567_xl](https://user-images.githubusercontent.com/12054603/135656087-012ac6ab-376f-49b1-956a-e92f2ccb512a.jpg)
+
+
+![RiskSlide1](https://user-images.githubusercontent.com/12054603/135661456-b71f212f-1a18-4379-a9b2-1607359e1137.png)
+![RiskSlide2](https://user-images.githubusercontent.com/12054603/135661463-a9fa5e8d-a9b7-4e28-af0c-65d8352d89ca.png)
+![RiskSlide3](https://user-images.githubusercontent.com/12054603/135661464-08b645be-af51-461e-aae4-081fdbd63add.png)
+
 
 [Risk View.pptx](https://github.com/vahejab/RiskAIM/files/7269001/Risk.View.pptx)
 
