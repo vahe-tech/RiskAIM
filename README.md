@@ -1,6 +1,7 @@
 
-# RiskAIM
-RiskAIM - Project Risk Management Web Application
+![RiskAIM Logo](https://user-images.githubusercontent.com/12054603/135662151-ea058914-d08a-4cd8-8c1c-d5700a6cc823.png) ![RiskAIM](https://user-images.githubusercontent.com/12054603/135661939-8c6cc8f2-5bd4-44ea-9185-12446fbda45d.png)
+
+**RiskAIM - Project Risk Management Web Application**
 
 RiskAIM is designed to serve organizations and teams for tracking and managing Risks for a project.
 
@@ -19,6 +20,10 @@ RiskAIM is designed to serve organizations and teams for tracking and managing R
 Currently under development, it is written in ReactJS (Front-End) / PHP/MySQL (Back-End) and is developed as a single page application that will be migrated to a mobile device.
 
 -----------------
+
+**Risk vs Opportunity**
+
+![RiskQuadrants](https://user-images.githubusercontent.com/12054603/135663450-7badbba4-6175-4284-90ff-0accd80de217.png)
 
 ## Action vs. Action Item - What's the difference? ##
 
@@ -45,57 +50,14 @@ An element of a project that pops up during a project and requires attention and
 
 ## Four States Requiring Action ##
 
-**1) Issue** 
+![ProjectAspects](https://user-images.githubusercontent.com/12054603/135665773-0a1c4009-87dc-4bee-988f-a52be2215e55.png)
 
-*Something that has already happened (realized risk) and will have or already has a negative impact on the project, requiring corrective action*
- 
+## Representation of the Four Project States In Teim ##
 
- - Timeframe: Present
- - State: Unhealthy (-)
- - Action Aim: Correct
-
-![Issue](https://i.stack.imgur.com/8t6y7.png)
-
-----------
-
-**2) Action Item** 
-
-*Element of a project that pops up during a project life cycle and requires attention and action*
- 
- - Timeframe: Present
- - State: Healthy (+)
- - Action Aim: Maintain
-
-![Action_Item](https://i.stack.imgur.com/sreEV.png)
-
--------------
-
-**3) Risk** 
-
-*An uncertain event or condition that has a negative effect on a project’s objectives.*
-
- - Timeframe: Future
- - State: Potential for Loss (-)
- - Action Aim: Prevent
-
-![Risk](https://i.stack.imgur.com/5Dl65.png)
-
---------------
-
-**4) Opportunity**
-
-*Possible action that can be taken, that requires one or more actions to be completed, having a potential for gain, or benefit for a project, if pursued.* 
-
- - Timeframe: Future
- - State: Potential for Gain (+)
- - Action Aim: Pursue
-
-![Opportunity](https://i.stack.imgur.com/JfPCg.png)
+![RiskQuadrants](https://user-images.githubusercontent.com/12054603/135665644-331517a3-c751-4321-976b-a03562c798ab.png)
 
 
-**Summary of the four elements of a project in a summarized graph form**
 
-![Project States And Response Actions](https://user-images.githubusercontent.com/12054603/134474514-ff75111c-a7e6-4eec-968b-a6445ad0f975.png)
 
 
 
