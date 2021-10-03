@@ -5,21 +5,22 @@
 
 RiskAIM is designed to serve organizations and teams for tracking and managing Risks for a project.
 
-
-![139392567_xl](https://user-images.githubusercontent.com/12054603/135656087-012ac6ab-376f-49b1-956a-e92f2ccb512a.jpg)
-
-
-![RiskSlide1](https://user-images.githubusercontent.com/12054603/135661456-b71f212f-1a18-4379-a9b2-1607359e1137.png)
-![RiskSlide2](https://user-images.githubusercontent.com/12054603/135661463-a9fa5e8d-a9b7-4e28-af0c-65d8352d89ca.png)
-![RiskSlide3](https://user-images.githubusercontent.com/12054603/135661464-08b645be-af51-461e-aae4-081fdbd63add.png)
-
-
-[Risk View.pptx](https://github.com/vahejab/RiskAIM/files/7269001/Risk.View.pptx)
-
-
 Currently under development, it is written in ReactJS (Front-End) / PHP/MySQL (Back-End) and is developed as a single page application that will be migrated to a mobile device.
 
 -----------------
+
+#Action - The Highest Common Factor in Project Management
+
+
+![Highest_Common_Factor_PM](https://i.stack.imgur.com/YOQTG.png)
+
+-----------------
+
+## Four States Requiring Action ##
+
+![ProjectAspects](https://user-images.githubusercontent.com/12054603/135665773-0a1c4009-87dc-4bee-988f-a52be2215e55.png)
+
+
 
 **Risk vs Opportunity**
 
@@ -35,29 +36,25 @@ The process of doing something in order to achieve an aim, or meet an objective.
 > aspect of a project requiring a response in Project Management.
 
 
-**What is an Action Item?**
+**What is an Risk?**
 
-An element of a project that pops up during a project and requires attention and action.  
+An associate identified potential future state of a project that if realized will have negative consequences for the entire project (in terms of Technical, Scheudle, and Cost).
+The action needed to be taken on a Risk is to prevent.
 
------------------
+In order to to decide on how to handle a risk, there are 4 possible mitigation actions that can be taken to proceed forward.
 
-#Action - The Highest Common Factor in Project Management
-
-
-![Highest_Common_Factor_PM](https://i.stack.imgur.com/YOQTG.png)
-
------------------
-
-## Four States Requiring Action ##
-
-![ProjectAspects](https://user-images.githubusercontent.com/12054603/135665773-0a1c4009-87dc-4bee-988f-a52be2215e55.png)
-
-## Representation of the Four Project States In Teim ##
-
-![RiskQuadrants](https://user-images.githubusercontent.com/12054603/135665644-331517a3-c751-4321-976b-a03562c798ab.png)
+![four-types-of-risk-mitigation-1024x576](https://user-images.githubusercontent.com/12054603/135753183-3b839d54-f286-41d4-be8b-d4221a060ce5.jpg)
 
 
+![139392567_xl](https://user-images.githubusercontent.com/12054603/135656087-012ac6ab-376f-49b1-956a-e92f2ccb512a.jpg)
 
+
+![RiskSlide1](https://user-images.githubusercontent.com/12054603/135661456-b71f212f-1a18-4379-a9b2-1607359e1137.png)
+![RiskSlide2](https://user-images.githubusercontent.com/12054603/135661463-a9fa5e8d-a9b7-4e28-af0c-65d8352d89ca.png)
+![RiskSlide3](https://user-images.githubusercontent.com/12054603/135661464-08b645be-af51-461e-aae4-081fdbd63add.png)
+
+
+[Risk View.pptx](https://github.com/vahejab/RiskAIM/files/7269001/Risk.View.pptx)
 
 
 
