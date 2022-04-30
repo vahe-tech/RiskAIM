@@ -72,7 +72,7 @@
             return ($status[$code])?$status[$code]:$status[500];
         }
 	}
-	
+
 	$api = new API();
 	$response = $api->processRequest();
 	echo $response;

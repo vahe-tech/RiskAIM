@@ -1,4 +1,5 @@
 <?php
+
     use Provider\Database;
 
     class EditRiskQuery
@@ -28,7 +29,7 @@
                                         'originalconsequence',GREATEST(r.Technical, r.Schedule, r.Cost),                              
                                         'originalvalue', 	  RiskValue(r.Likelihood, GREATEST(r.Technical, r.Schedule, r.Cost)),           
                                         'originallevel', 	  RiskLevel(RiskValue(r.Likelihood, GREATEST(r.Technical, r.Schedule, r.Cost))),
-                                        'latesteventdate',    LatestEventDate(r.RiskID, r.AssessmentDate),
+                                        'latesteventdate',    LatestEventDate(r.RiskID),
                                         'currentlikelihood',  CurrentLikelihood(r.RiskID),	
                                         'currentconsequence', CurrentConsequence(r.RiskID),	
                                         'currentvalue', 	  CurrentRiskValue(r.RiskID),		

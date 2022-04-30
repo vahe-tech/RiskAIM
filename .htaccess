@@ -1,7 +1,7 @@
 RewriteBase /
 RewriteEngine On
 Options -Indexes
-DirectoryIndex index.php
+DirectoryIndex api.php
 
 RewriteCond %{REQUEST_URI} ^/api/
 RewriteCond %{REQUEST_FILENAME} !-f
