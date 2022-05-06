@@ -53,7 +53,7 @@
                                                             'baselineschedule',    e.baselineschedule,
                                                             'baselinecost', 	   e.baselinecost)))
                 FROM  risks r
-                RIGHT JOIN  riskevents e
+                LEFT JOIN  riskevents e
                 ON e.riskid = r.riskid   
                 WHERE r.riskid = GetRiskID(:riskid, :goto)";
             try
