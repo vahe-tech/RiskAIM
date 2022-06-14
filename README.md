@@ -1,60 +1,51 @@
+# isexe
 
-![RiskAIM Logo](https://user-images.githubusercontent.com/12054603/135662151-ea058914-d08a-4cd8-8c1c-d5700a6cc823.png) ![RiskAIM](https://user-images.githubusercontent.com/12054603/135661939-8c6cc8f2-5bd4-44ea-9185-12446fbda45d.png)
+Minimal module to check if a file is executable, and a normal file.
 
-**RiskAIM - Project Risk Management Web Application**
+Uses `fs.stat` and tests against the `PATHEXT` environment variable on
+Windows.
 
-RiskAIM is designed to serve organizations and teams for tracking and managing Risks for a project.
+## USAGE
 
-Currently under development, it is written in ReactJS (Front-End) / PHP/MySQL (Back-End) and is developed as a single page application that will be migrated to a mobile device.
+```javascript
+var isexe = require('isexe')
+isexe('some-file-name', function (err, isExe) {
+  if (err) {
+    console.error('probably file does not exist or something', err)
+  } else if (isExe) {
+    console.error('this thing can be run')
+  } else {
+    console.error('cannot be run')
+  }
+})
 
------------------
+// same thing but synchronous, throws errors
+var isExe = isexe.sync('some-file-name')
 
-#Action - The Highest Common Factor in Project Management
+// treat errors as just "not executable"
+isexe('maybe-missing-file', { ignoreErrors: true }, callback)
+var isExe = isexe.sync('maybe-missing-file', { ignoreErrors: true })
+```
 
+## API
 
-![Highest_Common_Factor_PM](https://i.stack.imgur.com/YOQTG.png)
+### `isexe(path, [options], [callback])`
 
------------------
+Check if the path is executable.  If no callback provided, and a
+global `Promise` object is available, then a Promise will be returned.
 
-## Four States Requiring Action ##
+Will raise whatever errors may be raised by `fs.stat`, unless
+`options.ignoreErrors` is set to true.
 
-![ProjectAspects](https://user-images.githubusercontent.com/12054603/135665773-0a1c4009-87dc-4bee-988f-a52be2215e55.png)
+### `isexe.sync(path, [options])`
 
+Same as `isexe` but returns the value and throws any errors raised.
 
+### Options
 
-**Risk vs Opportunity**
-
-![RiskQuadrants](https://user-images.githubusercontent.com/12054603/135663450-7badbba4-6175-4284-90ff-0accd80de217.png)
-
-## Action vs. Action Item - What's the difference? ##
-
-**What is an Action?**
-
-The process of doing something in order to achieve an aim, or meet an objective.
-
-> An Action is the highest common factor and central component to any
-> aspect of a project requiring a response in Project Management.
-
-
-**What is an Risk?**
-
-An associate identified potential future state of a project that if realized will have negative consequences for the entire project (in terms of Technical, Scheudle, and Cost).
-The action needed to be taken on a Risk is to prevent.
-
-In order to to decide on how to handle a risk, there are 4 possible mitigation actions that can be taken to proceed forward.
-
-![four-types-of-risk-mitigation-1024x576](https://user-images.githubusercontent.com/12054603/135753183-3b839d54-f286-41d4-be8b-d4221a060ce5.jpg)
-
-
-![139392567_xl](https://user-images.githubusercontent.com/12054603/135656087-012ac6ab-376f-49b1-956a-e92f2ccb512a.jpg)
-
-
-![RiskSlide1](https://user-images.githubusercontent.com/12054603/135661456-b71f212f-1a18-4379-a9b2-1607359e1137.png)
-![RiskSlide2](https://user-images.githubusercontent.com/12054603/135661463-a9fa5e8d-a9b7-4e28-af0c-65d8352d89ca.png)
-![RiskSlide3](https://user-images.githubusercontent.com/12054603/135661464-08b645be-af51-461e-aae4-081fdbd63add.png)
-
-
-[Risk View.pptx](https://github.com/vahejab/RiskAIM/files/7269001/Risk.View.pptx)
-
-
-
+* `ignoreErrors` Treat all errors as "no, this is not executable", but
+  don't raise them.
+* `uid` Number to use as the user id
+* `gid` Number to use as the group id
+* `pathExt` List of path extensions to use instead of `PATHEXT`
+  environment variable on Windows.
